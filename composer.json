@@ -1,0 +1,8 @@
+{
+  "autoload": {
+    "classmap": [
+      "Model/CartItem.php",
+      "Model/Cart.php"
+    ]
+  }
+}
