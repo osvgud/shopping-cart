@@ -89,14 +89,14 @@ class CartItem
     public function getPrice()
     {
         if ($this->currency === 'USD') {
-            return $this->price / 1.14;
+            return round($this->price / 1.14, 2);
         }
 
         if ($this->currency === 'GBP') {
-            return $this->price / 0.88;
+            return round($this->price / 0.88);
         }
 
-        return $this->price;
+        return round($this->price);
     }
 
     public function setPrice(float $price)
