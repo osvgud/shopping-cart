@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use App\Model\Cart;
+use App\Model\CartItem;
+
 require "vendor/autoload.php";
 
 $open = fopen("cart.csv", "r");
