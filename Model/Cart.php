@@ -20,25 +20,48 @@ class Cart
         $this->printCartPrice();
     }
 
-    public function removeFromCart()
+    public function removeFromCart(CartItem $removableCartItem)
     {
+        $removableCartItem->invertQuantity();
+        $removableQuantity = $removableCartItem->getQuantity();
+
+        /** @var CartItem $cartItem */
+        foreach($this->cartItems as $index => $cartItem) {
+            if ($removableCartItem->getIdentifier() === $cartItem->getIdentifier()) {
+                if ($cartItem->getQuantity() <= $removableQuantity) {
+                    unset($this->cartItems[$index]);
+                    $decreaseQuantity = $cartItem->getQuantity();
+                    $removableQuantity -= $cartItem->getQuantity();
+                } else {
+                    $cartItem->decreaseQuantity($removableQuantity);
+                    $decreaseQuantity = $removableQuantity;
+                    $removableQuantity = 0;
+                }
+
+                $this->decreaseCartPrice($cartItem->getPrice(), $decreaseQuantity);
+
+                if (!$removableQuantity) {
+                    break;
+                }
+            }
+        }
         $this->printCartPrice();
     }
 
-    private function addItemToCart($cartItem)
+    private function addItemToCart(CartItem $cartItem)
     {
-        $itemIdentifier = $cartItem->getIdentifier();
-
-        if (array_key_exists($itemIdentifier, $this->cartItems)) {
-            $this->cartItems[$itemIdentifier]->increaseQuantity($cartItem->getQuantity());
-        } else {
-            $this->cartItems[$itemIdentifier] = $cartItem;
-        }
+        $this->cartItems[] = $cartItem;
     }
 
     private function increaseCartPrice(CartItem $cartItem)
     {
         $this->price += $cartItem->getPrice() * $cartItem->getQuantity();
+    }
+
+
+    private function decreaseCartPrice(float $price, int $quantity)
+    {
+        $this->price -= $price * $quantity;
     }
 
     private function printCartPrice()

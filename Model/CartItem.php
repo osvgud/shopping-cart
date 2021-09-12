@@ -32,7 +32,7 @@ class CartItem
     /**
      * @param mixed $currency
      */
-    public function setCurrency($currency)
+    public function setCurrency(string $currency)
     {
         $this->currency = $currency;
     }
@@ -48,7 +48,7 @@ class CartItem
     /**
      * @param mixed $identifier
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier(string $identifier)
     {
         $this->identifier = $identifier;
     }
@@ -61,21 +61,28 @@ class CartItem
         return $this->quantity;
     }
 
-    /**
-     * @param mixed $quantity
-     */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
         $this->quantity = $quantity;
     }
 
-    public function increaseQuantity($quantity)
+    public function increaseQuantity(int $quantity)
     {
         $this->quantity += $quantity;
     }
 
+    public function decreaseQuantity(int $quantity)
+    {
+        $this->quantity -= $quantity;
+    }
+
+    public function invertQuantity()
+    {
+        return $this->quantity = $this->quantity * -1;
+    }
+
     /**
-     * @return mixed
+     * @return float
      */
     public function getPrice()
     {
@@ -90,10 +97,7 @@ class CartItem
         return $this->price;
     }
 
-    /**
-     * @param mixed $price
-     */
-    public function setPrice($price)
+    public function setPrice(float $price)
     {
         $this->price = $price;
     }
